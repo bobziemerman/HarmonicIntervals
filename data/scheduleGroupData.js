@@ -7,4 +7,5 @@ var scheduleGroupData = {
         "name": "Schedule group 2",
         "instrumentGroups": [instrumentGroupData["IG2"]]
     }
+
 }

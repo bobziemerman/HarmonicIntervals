@@ -21,5 +21,17 @@ var timeslotData = {
         "fourthMath": false,
         "fifthMath": false
     },
+    "09:40": {
+        "startTime": "09:40",
+        "endTime": "10:10",
+        "scheduleGroups": [],
+        "fourthLunch": false,
+        "fifthLunch": false,
+        "fourthRecess": false,
+        "fifthRecess": false,
+        "fourthMath": false,
+        "fifthMath": false
+    }
+
 
 }
