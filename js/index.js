@@ -15,56 +15,74 @@ console.log(scheduleGroupData);
 
 
 
-
-//Initialize base data sets
-var initialTimeslots = _.values(timeslotData);
-var initialSGroups = _.values(scheduleGroupData);
-
 //Recursive schedule-filling algorithm
 var schedules = [];
-fillSchedule(new Schedule(), initialTimeslots, initialSGroups);
-function fillSchedule(currentSchedule, timeslotsRemaining, sGroupsRemaining){
-console.log('fillSchedule');
-    //Deep copy data at every loop to avoid overwrite errors
-    var schedule = JSON.parse(JSON.stringify(currentSchedule));
-console.log('schedule');
-console.log(schedule);
-    var ts = JSON.parse(JSON.stringify(timeslotsRemaining));
-    var sg = JSON.parse(JSON.stringify(sGroupsRemaining));
-    
-    _.each(ts, function(timeslot){
-        _.each(sg, function(group){
-            ts.pop(timeslot);
-            sg.pop(group);
-            
-            schedule.timeslots[timeslot.startTime].scheduleGroups.push(group);
 
-            if(sg.length && ts.length){
-                fillSchedule(schedule, ts, sg);
-            } else {
-                var duplicate = false;
-                _.each(schedules, function(curr){
-                    if(scheduleEquals(schedule, curr)){
-                        duplicate = true;
-                    }
-                });
-                if(!duplicate){
-                    schedules.push(schedule);
-                }
-            }
-            
-            ts.push(timeslot);
-            sg.push(group);
-        });
+var timeslotPerms = permutations(_.values(timeslotData));
+console.log('permuted:');
+console.log(timeslotPerms);
+
+_.each(timeslotPerms, function(perm){
+    var groups = copy(_.values(scheduleGroupData));
+
+    _.each(groups, function(group, i){
+        perm[i].scheduleGroups = group;
     });
-}
-console.log('finished');
+
+    perm.sort(function(a, b){
+        if(a.startTime < b.startTime){
+            return -1;
+        } else if(b.startTime < a.startTime){
+            return 1;
+        }
+        return 0;
+    });
+    
+    schedules.push(perm);
+});
+
+
+console.log('generated schedules:');
 console.log(schedules);
 
 
 
+
+
+
+
+
+
+function permutations(arr){
+
+    var permArr = [],
+        usedItems = [];
+
+    return permute(arr);
+
+    function permute(input) {
+        var i, item;
+        for (i = 0; i < input.length; i++) {
+            item = input.splice(i, 1)[0];
+            usedItems.push(item);
+            if (input.length == 0) {
+                permArr.push(copy(usedItems));
+            }
+            permute(input);
+            input.splice(i, 0, item);
+            usedItems.pop();
+        }
+
+        return permArr;
+    };
+};
+
 function scheduleEquals(a, b){
   return (JSON.stringify(a.timeslots) === JSON.stringify(b.timeslots));
+}
+
+function copy(obj){
+  return JSON.parse(JSON.stringify(obj));
 }
 
 
