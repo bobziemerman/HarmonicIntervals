@@ -6,6 +6,7 @@ var timeslotData = {
         "lunchGrades": [],
         "recessGrades": [],
         "mathGrades": [],
+        "peGrades": [],
     },
     "09:10": {
         "startTime": "09:10",
@@ -14,6 +15,7 @@ var timeslotData = {
         "lunchGrades": [],
         "recessGrades": [],
         "mathGrades": ["5th"],
+        "peGrades": [],
     },
     "09:40": {
         "startTime": "09:40",
@@ -22,6 +24,7 @@ var timeslotData = {
         "lunchGrades": ["5th"],
         "recessGrades": ["4th"],
         "mathGrades": [],
+        "peGrades": [],
     },
     "10:10": {
         "startTime": "10:10",
@@ -30,6 +33,7 @@ var timeslotData = {
         "lunchGrades": ["4th"],
         "recessGrades": ["5th"],
         "mathGrades": [],
+        "peGrades": [],
     },
     "10:40": {
         "startTime": "10:40",
@@ -38,6 +42,7 @@ var timeslotData = {
         "lunchGrades": [],
         "recessGrades": [],
         "mathGrades": ["4th"],
+        "peGrades": ["5th"],
     },
     "11:10": {
         "startTime": "11:10",
@@ -46,6 +51,45 @@ var timeslotData = {
         "lunchGrades": [],
         "recessGrades": [],
         "mathGrades": [],
+        "peGrades": ["4th"],
     },
+    "11:40": {
+        "startTime": "11:40",
+        "endTime": "12:10",
+        "scheduleGroups": [],
+        "lunchGrades": [],
+        "recessGrades": [],
+        "mathGrades": [],
+        "peGrades": [],
+    },
+    "12:10": {
+        "startTime": "12:10",
+        "endTime": "12:40",
+        "scheduleGroups": [],
+        "lunchGrades": [],
+        "recessGrades": [],
+        "mathGrades": [],
+        "peGrades": [],
+    },
+/*
+    "12:40": {
+        "startTime": "12:40",
+        "endTime": "13:10",
+        "scheduleGroups": [],
+        "lunchGrades": [],
+        "recessGrades": [],
+        "mathGrades": [],
+        "peGrades": [],
+    },
+    "13:10": {
+        "startTime": "13:10",
+        "endTime": "13:40",
+        "scheduleGroups": [],
+        "lunchGrades": [],
+        "recessGrades": [],
+        "mathGrades": [],
+        "peGrades": [],
+    },
+*/
 
 }
