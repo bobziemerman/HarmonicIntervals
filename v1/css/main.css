@@ -1,0 +1,13 @@
+table, th, td {
+  border: 1px solid black;
+}
+
+.table-group {
+  display: inline-block;
+  float: left;
+  margin: 10px;
+}
+
+.table-wrapper {
+  overflow: auto;
+}
