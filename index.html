@@ -3,90 +3,114 @@
 <head>
     <link rel="shortcut icon" href="favicon.ico">
 
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modules.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="table-wrapper">
-        <div>Controls TODO</div>
-
-        <br/>
-
-        <div>Top 5 schedules:</div>
+    <div class="main" ng-app="harmonicIntervals" ng-controller="main">
+        <h2>Harmonic Intervals</h2>
+        
+        <!-- Controls -->
         <div>
-            <div class="table-group">
-                <table id="schedule0">
-                    <tbody>
-                        <tr>
-                            <td>Score</td>
-                            <td class="score"></td>
-                        </tr>
-                    </tbody>
+            <h4>Customize Schedule:</h4>
+            <div>
+                <table class="table" ng-repeat="(dayName, day) in days">
+                    <tr>
+                        <td class="capitalize">{{dayName}}</td>
+                        <td ng-repeat="grade in grades">{{grade.number}}L</td>
+                        <td ng-repeat="grade in grades">{{grade.number}}M</td>
+                        <td ng-repeat="grade in grades">{{grade.number}}PE</td>
+                        <td ng-repeat="grade in grades">{{grade.number}}R</td>
+                    </tr>
+                    <tr ng-repeat="(timeslotName, timeslot) in day">
+                        <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
+                        <!-- Lunch checkboxes -->
+                        <td ng-repeat="(gradeName, grade) in grades">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       ng-click="toggleLunch(dayName, timeslotName, gradeName)"
+                                       ng-checked="checkLunch(timeslot, gradeName)">
+                            </div>
+                        </td>
+                        <!-- Math checkboxes -->
+                        <td ng-repeat="(gradeName, grade) in grades">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       ng-click="toggleMath(dayName, timeslotName, gradeName)"
+                                       ng-checked="checkMath(timeslot, gradeName)">
+
+                            </div>
+                        </td>
+                        <!-- PE checkboxes -->
+                        <td ng-repeat="(gradeName, grade) in grades">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       ng-click="togglePE(dayName, timeslotName, gradeName)"
+                                       ng-checked="checkPE(timeslot, gradeName)">
+
+                            </div>
+                        </td>
+                        <!-- Recess checkboxes -->
+                        <td ng-repeat="(gradeName, grade) in grades">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       ng-click="toggleRecess(dayName, timeslotName, gradeName)"
+                                       ng-checked="checkRecess(timeslot, gradeName)">
+
+                            </div>
+                        </td>
+                    </tr>
                 </table>
-                <div>Warnings:</div>
-                <div class="err">None</div>
-            </div>
-            <div class="table-group">
-                <table id="schedule1">
-                    <tbody>
-                        <tr>
-                            <td>Score</td>
-                            <td class="score"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>Warnings:</div>
-                <div class="err">None</div>
-            </div>
-            <div class="table-group">
-                <table id="schedule2">
-                    <tbody>
-                        <tr>
-                            <td>Score</td>
-                            <td class="score"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>Warnings:</div>
-                <div class="err">None</div>
-            </div>
-            <div class="table-group">
-                <table id="schedule3">
-                    <tbody>
-                        <tr>
-                            <td>Score</td>
-                            <td class="score"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>Warnings:</div>
-                <div class="err">None</div>
-            </div>
-            <div class="table-group">
-                <table id="schedule4">
-                    <tbody>
-                        <tr>
-                            <td>Score</td>
-                            <td class="score"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>Warnings:</div>
-                <div class="err">None</div>
             </div>
         </div>
+
+        <!-- Tables -->
+        <div>
+            <table class="table" ng-repeat="(dayName, day) in days">
+                <tr>
+                    <td class="capitalize">{{dayName}}</td>
+                    <td ng-repeat="scheduleGroup in scheduleGroups"
+                        ng-if="scheduleGroup.instrumentGroups.length > 0" 
+                        data-toggle="tooltip" 
+                        title="{{instrumentGroupNames(scheduleGroup)}}">
+                        {{scheduleGroup.name}}
+                    </td>
+                </tr>
+                <tr ng-repeat="timeslot in day">
+                    <td>{{timeslot.startTime}} - {{timeslot.endTime}} {{gradeEvents(timeslot)}}</td>
+                    <td ng-repeat="scheduleGroup in scheduleGroups"
+                        ng-if="scheduleGroup.instrumentGroups.length"
+                        ng-class="{'bg--green': timeslotLevel(timeslot, scheduleGroup) === 3,
+                                   'bg--yellow': timeslotLevel(timeslot, scheduleGroup) === 2,
+                                   'bg--orange': timeslotLevel(timeslot, scheduleGroup) === 1,
+                                   'bg--red': timeslotLevel(timeslot, scheduleGroup) === 0
+                                   }"
+                        data-toggle="tooltip"
+                        title="{{timeslotWarnings(timeslot, scheduleGroup)}}">
+                        {{scheduleGroup.instrumentGroups.length}}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-
-    <br/>
-
-    <div>Debug:</div>
-    <pre id="js-pre-output"></pre>
-
 
 
     <!-- JS files -->
 
     <!-- Public libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="libs/underscore-min.js"></script>
 
     <!-- Data files -->

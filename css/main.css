@@ -1,13 +1,43 @@
-table, th, td {
-  border: 1px solid black;
+.main {
+  margin-top: 15px;
 }
 
-.table-group {
+table {
   display: inline-block;
-  float: left;
-  margin: 10px;
+  margin: 0 5px;
 }
 
-.table-wrapper {
-  overflow: auto;
+table, th, td {
+  border: 1px solid grey;
 }
+
+
+.bg--green {
+  background-color: green;
+}
+
+.bg--yellow {
+  background-color: yellow;
+}
+
+.bg--orange {
+  background-color: orange;
+}
+
+.bg--red {
+  background-color: red;
+}
+
+
+
+/****************************** Bootstrap overrides **********************************/
+
+.table {
+    width: auto;
+}
+
+.table td,
+.table th {
+    padding: 0.3rem;
+}
+
