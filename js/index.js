@@ -216,15 +216,17 @@ console.log(schoolData);
 
         _.each(_.values($scope.computedSchedule), function(checkedTimeslot){
             _.each(_.keys(checkedTimeslot), function(sgName){
-                _.each($scope.scheduleGroups, function(sg){
-                    if(sg.name === sgName){
-                        _.each(sg.instrumentGroups, function(ig){
-                            if(ig.name === igName){
-                                lessonCount++;
-                            }
-                        });
-                    }
-                });
+                if(checkedTimeslot[sgName]){
+                    _.each($scope.scheduleGroups, function(sg){
+                        if(sg.name === sgName){
+                            _.each(sg.instrumentGroups, function(ig){
+                                if(ig.name === igName){
+                                    lessonCount++;
+                                }
+                            });
+                        }
+                    });
+                }
             });
         });
 
@@ -242,6 +244,8 @@ console.log(schoolData);
         });
         return igs.join(', ');
     }
+
+$scope.do = function(){console.log($scope.computedSchedule);}
 
 
 
