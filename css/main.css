@@ -28,6 +28,18 @@ table, th, td {
   background-color: red;
 }
 
+.bg--black {
+  background-color: black;
+}
+
+.text--green {
+  color: green;
+}
+
+.text--red {
+  color: red;
+}
+
 
 
 /****************************** Bootstrap overrides **********************************/

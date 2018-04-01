@@ -8,15 +8,51 @@ console.log(gradeData);
 console.log(teacherData);
 console.log(schoolData);
 
-    $scope.days = JSON.parse(JSON.stringify(timeslotData));
+    $scope.schools = JSON.parse(JSON.stringify(schoolData));
+    $scope.school = $scope.schools['woodmore']; //Default school
     $scope.scheduleGroups = JSON.parse(JSON.stringify(scheduleGroupData));
+    $scope.instrumentGroups = JSON.parse(JSON.stringify(instrumentGroupData));
     $scope.grades = JSON.parse(JSON.stringify(gradeData));
+    $scope.missedMath = [];
+    $scope.computedSchedule = [];
+    $scope.days = [];
+    _.each(_.keys($scope.school.schedule), function(day){
+        $scope.days[day] = true;
+    });
 
+
+    $scope.sgContainsIg = function(sg, ig){
+        var contains = false;
+        _.each(sg.instrumentGroups, function(currIg){
+            if(currIg.name === ig.name){
+                contains = true;
+            }
+        });
+        return contains;
+    }
+
+    $scope.toggleSgIg = function(sg, ig){
+        if($scope.sgContainsIg(sg, ig)){
+            sg.instrumentGroups = sg.instrumentGroups.filter(function(obj){
+                return obj.name === ig.name;
+            });
+        } else {
+            sg.instrumentGroups.push(JSON.parse(JSON.stringify(ig)));
+        }
+    }
 
     $scope.timeslotWarnings = function(timeslot, scheduleGroup){
         var warnings = [];
         var grades = [];
         _.each(scheduleGroup.instrumentGroups, function(ig){
+            _.each(ig.grades, function(igGrade){
+                _.each(timeslot.mathGrades, function(mathGrade){
+                    if(igGrade === mathGrade && $scope.missedMath[ig.name]){
+                        warnings.push(ig.name+" cannot miss math two weeks in a row");
+                    }
+                });
+            });
+
             grades = grades.concat(ig.grades);
         });
 
@@ -40,6 +76,11 @@ console.log(schoolData);
                 warnings.push(grade + ' grade has recess');
             }
         });
+        _.each(timeslot.mathGrades, function(grade){
+            if(grades.includes(grade)){
+                warnings.push(grade + ' grade has math');
+            }
+        });
 
         return warnings.join('; ');
     }
@@ -48,6 +89,14 @@ console.log(schoolData);
         var level = 3;
         var grades = [];
         _.each(scheduleGroup.instrumentGroups, function(ig){
+            _.each(ig.grades, function(igGrade){
+                _.each(timeslot.mathGrades, function(mathGrade){
+                    if(igGrade === mathGrade && $scope.missedMath[ig.name]){
+                        level = 0;
+                    }
+                });
+            });
+
             grades = grades.concat(ig.grades);
         });
 
@@ -56,6 +105,7 @@ console.log(schoolData);
                 level--;
             }
         });
+
         _.each(timeslot.peGrades, function(grade){
             if(grades.includes(grade)){
                 level--;
@@ -94,38 +144,38 @@ console.log(schoolData);
 
     //Checkbox toggle functions
     $scope.toggleLunch = function(dayName, timeslotName, gradeName){
-        if($scope.days[dayName][timeslotName].lunchGrades.includes(gradeName)){
-		$scope.days[dayName][timeslotName].lunchGrades = 
-                    _.without($scope.days[dayName][timeslotName].lunchGrades, gradeName);
+        if($scope.school.schedule[dayName][timeslotName].lunchGrades.includes(gradeName)){
+		$scope.school.schedule[dayName][timeslotName].lunchGrades = 
+                    _.without($scope.school.schedule[dayName][timeslotName].lunchGrades, gradeName);
         } else {
-            $scope.days[dayName][timeslotName].lunchGrades.push(gradeName);
+            $scope.school.schedule[dayName][timeslotName].lunchGrades.push(gradeName);
         }
     };
 
     $scope.toggleMath = function(dayName, timeslotName, gradeName){
-        if($scope.days[dayName][timeslotName].mathGrades.includes(gradeName)){
-                $scope.days[dayName][timeslotName].mathGrades =
-                    _.without($scope.days[dayName][timeslotName].mathGrades, gradeName);
+        if($scope.school.schedule[dayName][timeslotName].mathGrades.includes(gradeName)){
+                $scope.school.schedule[dayName][timeslotName].mathGrades =
+                    _.without($scope.school.schedule[dayName][timeslotName].mathGrades, gradeName);
         } else {
-            $scope.days[dayName][timeslotName].mathGrades.push(gradeName);
+            $scope.school.schedule[dayName][timeslotName].mathGrades.push(gradeName);
         }
     };
 
     $scope.togglePE = function(dayName, timeslotName, gradeName){
-        if($scope.days[dayName][timeslotName].peGrades.includes(gradeName)){
-                $scope.days[dayName][timeslotName].peGrades =
-                    _.without($scope.days[dayName][timeslotName].peGrades, gradeName);
+        if($scope.school.schedule[dayName][timeslotName].peGrades.includes(gradeName)){
+                $scope.school.schedule[dayName][timeslotName].peGrades =
+                    _.without($scope.school.schedule[dayName][timeslotName].peGrades, gradeName);
         } else {
-            $scope.days[dayName][timeslotName].peGrades.push(gradeName);
+            $scope.school.schedule[dayName][timeslotName].peGrades.push(gradeName);
         }
     };
 
     $scope.toggleRecess = function(dayName, timeslotName, gradeName){
-        if($scope.days[dayName][timeslotName].recessGrades.includes(gradeName)){
-                $scope.days[dayName][timeslotName].recessGrades =
-                    _.without($scope.days[dayName][timeslotName].recessGrades, gradeName);
+        if($scope.school.schedule[dayName][timeslotName].recessGrades.includes(gradeName)){
+                $scope.school.schedule[dayName][timeslotName].recessGrades =
+                    _.without($scope.school.schedule[dayName][timeslotName].recessGrades, gradeName);
         } else {
-            $scope.days[dayName][timeslotName].recessGrades.push(gradeName);
+            $scope.school.schedule[dayName][timeslotName].recessGrades.push(gradeName);
         }
     };
 
@@ -161,9 +211,42 @@ console.log(schoolData);
         return names.join(', ');
     }
 
+    $scope.lessonCount = function(igName){
+        var lessonCount = 0;
+
+        _.each(_.values($scope.computedSchedule), function(checkedTimeslot){
+            _.each(_.keys(checkedTimeslot), function(sgName){
+                _.each($scope.scheduleGroups, function(sg){
+                    if(sg.name === sgName){
+                        _.each(sg.instrumentGroups, function(ig){
+                            if(ig.name === igName){
+                                lessonCount++;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        return lessonCount;
+    }
+
+    $scope.sgIgs = function(sgName){
+        var igs = [];
+        _.each($scope.scheduleGroups, function(sg){
+            if(sg.name === sgName){
+                _.each(sg.instrumentGroups, function(ig){
+                    igs.push(ig.name);
+                });
+            }
+        });
+        return igs.join(', ');
+    }
+
+
 
     //Initialize Bootstrap tooltips
-    $scope.$watch('days', function(){
+    $scope.$watch('school.schedule', function(){
         $('body').tooltip({selector: '[data-toggle="tooltip"]'});
     }, true);
 
