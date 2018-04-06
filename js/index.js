@@ -3,13 +3,16 @@ app.controller('main', function($scope) {
     console.log('sanity');
 console.log(instrumentGroupData);
 console.log(scheduleGroupData);
-console.log(timeslotData);
+console.log(timeslotData__W__A);
+console.log(timeslotData__W__B);
+console.log(timeslotData__TG__A);
+console.log(timeslotData__TG__B);
 console.log(gradeData);
 console.log(teacherData);
 console.log(schoolData);
 
     $scope.schools = JSON.parse(JSON.stringify(schoolData));
-    $scope.school = $scope.schools['woodmore']; //Default school
+    $scope.school = $scope.schools['tulipGroveA']; //Default school
     $scope.scheduleGroups = JSON.parse(JSON.stringify(scheduleGroupData));
     $scope.instrumentGroups = JSON.parse(JSON.stringify(instrumentGroupData));
     $scope.grades = JSON.parse(JSON.stringify(gradeData));
