@@ -23,6 +23,11 @@ console.log($scope.school);
         var warnings = [];
         var grades = ig.grades;
 
+        _.each(timeslot.inactiveGrades, function(grade){
+            if(grades.includes(grade)){
+                warnings.push(grade + ' grade not allowed now');
+            }
+        });
         _.each(timeslot.lunchGrades, function(grade){
             if(grades.includes(grade)){
                 warnings.push(grade + ' grade has lunch');
@@ -63,6 +68,11 @@ console.log($scope.school);
         var level = 3;
         var grades = instrumentGroup.grades;
 
+        _.each(timeslot.inactiveGrades, function(grade){
+            if(grades.includes(grade)){
+                level = 0;
+            }
+        });
         _.each(timeslot.lunchGrades, function(grade){
             if(grades.includes(grade)){
                 level = 0;
