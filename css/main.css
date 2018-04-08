@@ -11,6 +11,17 @@ table, th, td {
   border: 1px solid grey;
 }
 
+.school-select {
+  width: auto !important;
+}
+
+.color-table td.group-name {
+  max-width: 65px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 
 .bg--green {
   background-color: green;

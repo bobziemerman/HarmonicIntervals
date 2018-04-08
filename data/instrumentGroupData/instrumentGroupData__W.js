@@ -1,4 +1,4 @@
-var instrumentGroupData = {
+var instrumentGroupData__W = {
     "red": {
         "name": "Red",
         "grades": ["4th"],

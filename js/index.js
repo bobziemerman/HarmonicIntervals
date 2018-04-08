@@ -1,63 +1,27 @@
-var app = angular.module('harmonicIntervals', []);
+var app = angular.module('harmonicIntervals', ['isteven-multi-select']);
 app.controller('main', function($scope) {
     console.log('sanity');
-console.log(instrumentGroupData);
-console.log(scheduleGroupData);
-console.log(timeslotData__W__A);
-console.log(timeslotData__W__B);
-console.log(timeslotData__TG__A);
-console.log(timeslotData__TG__B);
 console.log(gradeData);
 console.log(teacherData);
 console.log(schoolData);
 
     $scope.schools = JSON.parse(JSON.stringify(schoolData));
-    $scope.school = $scope.schools['tulipGroveA']; //Default school
-    $scope.scheduleGroups = JSON.parse(JSON.stringify(scheduleGroupData));
-    $scope.instrumentGroups = JSON.parse(JSON.stringify(instrumentGroupData));
+    $scope.school = $scope.schools['tulipGroveA']; //Default to TG
+console.log($scope.school);
     $scope.grades = JSON.parse(JSON.stringify(gradeData));
-    $scope.missedMath = [];
+    $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     $scope.computedSchedule = [];
+
+    //Allows day toggle
     $scope.days = [];
     _.each(_.keys($scope.school.schedule), function(day){
         $scope.days[day] = true;
     });
 
 
-    $scope.sgContainsIg = function(sg, ig){
-        var contains = false;
-        _.each(sg.instrumentGroups, function(currIg){
-            if(currIg.name === ig.name){
-                contains = true;
-            }
-        });
-        return contains;
-    }
-
-    $scope.toggleSgIg = function(sg, ig){
-        if($scope.sgContainsIg(sg, ig)){
-            sg.instrumentGroups = sg.instrumentGroups.filter(function(obj){
-                return obj.name === ig.name;
-            });
-        } else {
-            sg.instrumentGroups.push(JSON.parse(JSON.stringify(ig)));
-        }
-    }
-
-    $scope.timeslotWarnings = function(timeslot, scheduleGroup){
+    $scope.timeslotWarnings = function(timeslot, ig){
         var warnings = [];
-        var grades = [];
-        _.each(scheduleGroup.instrumentGroups, function(ig){
-            _.each(ig.grades, function(igGrade){
-                _.each(timeslot.mathGrades, function(mathGrade){
-                    if(igGrade === mathGrade && $scope.missedMath[ig.name]){
-                        warnings.push(ig.name+" cannot miss math two weeks in a row");
-                    }
-                });
-            });
-
-            grades = grades.concat(ig.grades);
-        });
+        var grades = ig.grades;
 
         _.each(timeslot.lunchGrades, function(grade){
             if(grades.includes(grade)){
@@ -66,7 +30,19 @@ console.log(schoolData);
         });
         _.each(timeslot.mathGrades, function(grade){
             if(grades.includes(grade)){
-                warnings.push(grade + ' grade has math');
+                var missed = false;
+                _.each($scope.missedMathState, function(miss){
+                    if(miss.name === ig.name){
+                        missed = true;
+                    }
+                });
+
+                if(missed){
+                    warnings.push(ig.name+" cannot miss math two weeks in a row");
+                } else {
+                    warnings.push(grade + ' grade has math');
+                }
+                
             }
         });
         _.each(timeslot.peGrades, function(grade){
@@ -79,36 +55,35 @@ console.log(schoolData);
                 warnings.push(grade + ' grade has recess');
             }
         });
-        _.each(timeslot.mathGrades, function(grade){
-            if(grades.includes(grade)){
-                warnings.push(grade + ' grade has math');
-            }
-        });
 
         return warnings.join('; ');
     }
 
-    $scope.timeslotLevel = function(timeslot, scheduleGroup){
+    $scope.timeslotLevel = function(timeslot, instrumentGroup){
         var level = 3;
-        var grades = [];
-        _.each(scheduleGroup.instrumentGroups, function(ig){
-            _.each(ig.grades, function(igGrade){
-                _.each(timeslot.mathGrades, function(mathGrade){
-                    if(igGrade === mathGrade && $scope.missedMath[ig.name]){
-                        level = 0;
-                    }
-                });
-            });
+        var grades = instrumentGroup.grades;
 
-            grades = grades.concat(ig.grades);
-        });
-
-        _.each(timeslot.mathGrades, function(grade){
+        _.each(timeslot.lunchGrades, function(grade){
             if(grades.includes(grade)){
-                level--;
+                level = 0;
             }
         });
+        _.each(timeslot.mathGrades, function(grade){
+            if(grades.includes(grade)){
+                var missed = false;
+                _.each($scope.missedMathState, function(miss){
+                    if(miss.name === instrumentGroup.name){
+                        missed = true;
+                    }
+                });
 
+                if(missed){
+                    level = 0;
+                } else{
+                    level--;
+                }
+            }
+        });
         _.each(timeslot.peGrades, function(grade){
             if(grades.includes(grade)){
                 level--;
@@ -119,16 +94,15 @@ console.log(schoolData);
                 level--;
             }
         });
-        _.each(timeslot.lunchGrades, function(grade){
-            if(grades.includes(grade)){
-                level = 0;
-            }
-        });
 
         return level;
     }
 
     //Checkbox state evalutation functions
+    $scope.checkGrade = function(timeslot, grade){
+        return timeslot.inactiveGrades.includes(grade);
+    };
+
     $scope.checkLunch = function(timeslot, grade){
         return timeslot.lunchGrades.includes(grade);
     };
@@ -146,6 +120,15 @@ console.log(schoolData);
     };
 
     //Checkbox toggle functions
+    $scope.toggleGrade = function(dayName, timeslotName, gradeName){
+        if($scope.school.schedule[dayName][timeslotName].inactiveGrades.includes(gradeName)){
+                $scope.school.schedule[dayName][timeslotName].inactiveGrades =
+                    _.without($scope.school.schedule[dayName][timeslotName].lunchGrades, gradeName);
+        } else {
+            $scope.school.schedule[dayName][timeslotName].inactiveGrades.push(gradeName);
+        }
+    };
+
     $scope.toggleLunch = function(dayName, timeslotName, gradeName){
         if($scope.school.schedule[dayName][timeslotName].lunchGrades.includes(gradeName)){
 		$scope.school.schedule[dayName][timeslotName].lunchGrades = 
@@ -208,47 +191,19 @@ console.log(schoolData);
         return events.length ? '('+events.join(' ')+')' : '';
     }
 
-    $scope.instrumentGroupNames = function(scheduleGroup){
-        var names = [];
-        _.each(scheduleGroup.instrumentGroups, function(ig){ names.push(ig.name) });
-        return names.join(', ');
-    }
-
     $scope.lessonCount = function(igName){
         var lessonCount = 0;
 
         _.each(_.values($scope.computedSchedule), function(checkedTimeslot){
-            _.each(_.keys(checkedTimeslot), function(sgName){
-                if(checkedTimeslot[sgName]){
-                    _.each($scope.scheduleGroups, function(sg){
-                        if(sg.name === sgName){
-                            _.each(sg.instrumentGroups, function(ig){
-                                if(ig.name === igName){
-                                    lessonCount++;
-                                }
-                            });
-                        }
-                    });
+            _.each(_.keys(checkedTimeslot), function(tsIgName){
+                if(checkedTimeslot[igName] && tsIgName === igName){
+                    lessonCount++;
                 }
             });
         });
 
         return lessonCount;
     }
-
-    $scope.sgIgs = function(sgName){
-        var igs = [];
-        _.each($scope.scheduleGroups, function(sg){
-            if(sg.name === sgName){
-                _.each(sg.instrumentGroups, function(ig){
-                    igs.push(ig.name);
-                });
-            }
-        });
-        return igs.join(', ');
-    }
-
-$scope.do = function(){console.log($scope.computedSchedule);}
 
 
 
@@ -258,4 +213,10 @@ $scope.do = function(){console.log($scope.computedSchedule);}
     }, true);
 
 
+    //Initialize Bootstrap tooltips
+    $scope.$watch('school', function(){
+        $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
+    }, true);
+
 });
+

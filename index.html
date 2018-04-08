@@ -5,6 +5,7 @@
 
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="libs/isteven/isteven.css">
 
 
     <!-- Custom CSS -->
@@ -17,62 +18,52 @@
         
         <div class="row">
             <div class="col-12">
-                <h5>Choose School: </h5>
-                <div style="margin-left: 15px; width: 200px;">
-                    <select ng-model="school" 
-                            ng-options="s.name for s in schools" 
-                            class="form-control" 
-                            id="school"></select>
-                </div>
+                <h5 class="float-left">Choose School: </h5>
+                <select ng-model="school" 
+                        ng-options="s.name for s in schools" 
+                        class="school-select form-control" 
+                        id="school"></select>
             </div>
         </div>
 
         <div class="row">
             <div class="col-12">
-                <h5>Did anyone miss math last week? </h5>
-                <div style="margin-left: 15px;">
-                    <div class="row">
-                        <div class="col-2" ng-repeat="ig in instrumentGroups">
-                           <label>
-                               <input type="checkbox"
-                                      ng-model="missedMath[ig.name]" />
-                               {{ig.name}}
-                           </label>
-                        </div>
-                    </div>
-                </div>
+                <h5 class="float-left">Did anyone miss math last week? </h5>
+                <span   
+                    isteven-multi-select
+                    input-model="missedMath"
+                    output-model="missedMathState"
+                    button-label="name"
+                    item-label="name"
+                    tick-property="checked"
+                    helper-elements=""></span>
             </div>
         </div>
 
         <!-- Schedule -->
         <h5>Timeslots:</h5>
         <div>
-            <table class="table" 
+            <table class="color-table table" 
                    ng-if="days[dayName]"
                    ng-repeat="(dayName, day) in school.schedule">
                 <tr>
-                    <td class="capitalize">{{dayName}}</td>
-                    <td ng-repeat="scheduleGroup in scheduleGroups"
-                        ng-if="scheduleGroup.instrumentGroups.length > 0"
-                        data-toggle="tooltip"
-                        title="{{instrumentGroupNames(scheduleGroup)}}">
-                        {{scheduleGroup.name}}
+                    <td class="capitalized">{{dayName}}</td>
+                    <td class="group-name" ng-repeat="instrumentGroup in school.instrumentGroups">
+                        {{instrumentGroup.name}}
                     </td>
                 </tr>
                 <tr ng-repeat="timeslot in day">
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}} {{gradeEvents(timeslot)}}</td>
-                    <td ng-repeat="scheduleGroup in scheduleGroups"
-                        ng-if="scheduleGroup.instrumentGroups.length"
-                        ng-class="{'bg--green': timeslotLevel(timeslot, scheduleGroup) === 3,
-                                   'bg--yellow': timeslotLevel(timeslot, scheduleGroup) === 2,
-                                   'bg--orange': timeslotLevel(timeslot, scheduleGroup) === 1,
-                                   'bg--red': timeslotLevel(timeslot, scheduleGroup) < 1
+                    <td ng-repeat="instrumentGroup in school.instrumentGroups"
+                        ng-class="{'bg--green': timeslotLevel(timeslot, instrumentGroup) === 3,
+                                   'bg--yellow': timeslotLevel(timeslot, instrumentGroup) === 2,
+                                   'bg--orange': timeslotLevel(timeslot, instrumentGroup) === 1,
+                                   'bg--red': timeslotLevel(timeslot, instrumentGroup) < 1
                                    }"
                         data-toggle="tooltip"
-                        title="{{timeslotWarnings(timeslot, scheduleGroup)}}">
+                        title="{{timeslotWarnings(timeslot, instrumentGroup)}}">
                         <input type="checkbox"
-ng-change="do()"
-                               ng-model="computedSchedule[dayName+timeslot.startTime][scheduleGroup.name]" />
+                               ng-model="computedSchedule[dayName+timeslot.startTime][instrumentGroup.name]" />
                     </td>
                 </tr>
             </table>
@@ -82,14 +73,11 @@ ng-change="do()"
         <h5>Your schedule:</h5>
         
         <div>
-            <div>Lessons per group:</div>
-            <div ng-repeat="ig in instrumentGroups">
+            <div>Everyone is seen twice except:</div>
+            <span ng-repeat="ig in school.instrumentGroups" ng-if="lessonCount(ig.name) !== 2">
                 {{ig.name}}: 
-                <b><span ng-class="{'text--green': lessonCount(ig.name) === 2,
-                                 'text--red': lessonCount(ig.name) != 2}">
-                    {{lessonCount(ig.name)}}
-                </span></b>
-            </div>
+                <b><span class="text--red">{{lessonCount(ig.name)}}</span></b><span ng-if="!$last">, </span>
+            </span>
         </div>
         
         <div>
@@ -103,35 +91,13 @@ ng-change="do()"
                 <tr ng-repeat="timeslot in school.schedule.monday">
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
                     <td ng-repeat="(dayName, day) in school.schedule" ng-if="days[dayName]">
-                        <span ng-repeat="(sg, val) in computedSchedule[dayName+timeslot.startTime]"
+                        <span ng-repeat="(ig, val) in computedSchedule[dayName+timeslot.startTime]"
                               ng-if="val">
-                            {{sgIgs(sg)}}
+                            {{ig}}
                         </span>
                     </td>
                 </tr>
             </table>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <h5>Customize schedule groups: </h5>
-                <div style="margin-left: 15px;">
-                    <div class="row">
-                        <div class="col-2" ng-repeat="sg in scheduleGroups">
-                            <div>{{sg.name}}</div>
-                            <span ng-repeat="ig in instrumentGroups">
-                                <label>
-                                    <input type="checkbox"
-                                           ng-checked="sgContainsIg(sg, ig)"
-                                           ng-model="sg.checked[ig.name]"
-                                           ng-change="toggleSgIg(sg, ig)" />
-                                    {{ig.name}}
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <h5>Customize Schedule:</h5>
@@ -143,18 +109,30 @@ ng-change="do()"
                         <input type="checkbox"
                                ng-model="days[dayName]" />
                     </td>
+                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}X</td>
                     <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}L</td>
                     <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}M</td>
-                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}PE</td>
+                    <!--td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}PE</td-->
                     <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}R</td>
                 </tr>
                 <tr ng-repeat="(timeslotName, timeslot) in day">
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
+
+                    <!-- Cancel checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   ng-click="toggleGrade(dayName, timeslotName, gradeName)"
+                                   ng-checked="checkGrade(timeslot, gradeName)">
+                        </div>
+                    </td>
                     <!-- Lunch checkboxes -->
                     <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
                         <div class="form-check">
                             <input class="form-check-input" 
                                    type="checkbox" 
+                                   ng-if="!checkGrade(timeslot, gradeName)"
                                    ng-click="toggleLunch(dayName, timeslotName, gradeName)"
                                    ng-checked="checkLunch(timeslot, gradeName)">
                         </div>
@@ -164,25 +142,28 @@ ng-change="do()"
                         <div class="form-check">
                             <input class="form-check-input"
                                    type="checkbox"
+                                   ng-if="!checkGrade(timeslot, gradeName)"
                                    ng-click="toggleMath(dayName, timeslotName, gradeName)"
                                    ng-checked="checkMath(timeslot, gradeName)">
                          </div>
                     </td>
                     <!-- PE checkboxes -->
-                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                    <!--td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
                        <div class="form-check">
                             <input class="form-check-input"
                                    type="checkbox"
+                                   ng-if="!checkGrade(timeslot, gradeName)"
                                    ng-click="togglePE(dayName, timeslotName, gradeName)"
                                    ng-checked="checkPE(timeslot, gradeName)">
 
                         </div>
-                    </td>
+                    </td-->
                     <!-- Recess checkboxes -->
                     <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
                         <div class="form-check">
                             <input class="form-check-input"
                                    type="checkbox"
+                                   ng-if="!checkGrade(timeslot, gradeName)"
                                    ng-click="toggleRecess(dayName, timeslotName, gradeName)"
                                    ng-checked="checkRecess(timeslot, gradeName)">
                         </div>
@@ -201,10 +182,11 @@ ng-change="do()"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="libs/underscore-min.js"></script>
+    <script src="libs/isteven/isteven.js"></script>
 
     <!-- Data files -->
-    <script type="text/javascript" src="data/instrumentGroupData.js"></script>
-    <script type="text/javascript" src="data/scheduleGroupData.js"></script>
+    <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__TG.js"></script>
+    <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__W.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__W__A.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__W__B.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__TG__A.js"></script>
