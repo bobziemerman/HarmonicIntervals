@@ -112,6 +112,16 @@ console.log($scope.school);
     $scope.checkGrade = function(timeslot, grade){
         return timeslot.inactiveGrades.includes(grade);
     };
+    $scope.checkAllGrade = function(dayName, grade){
+        var allChecked = true;
+        _.each($scope.school.schedule[dayName], function(timeslot){
+            if(!$scope.checkGrade(timeslot, grade)){
+                allChecked = false;
+            }
+        });
+
+        return allChecked;
+    };
 
     $scope.checkLunch = function(timeslot, grade){
         return timeslot.lunchGrades.includes(grade);
@@ -133,10 +143,20 @@ console.log($scope.school);
     $scope.toggleGrade = function(dayName, timeslotName, gradeName){
         if($scope.school.schedule[dayName][timeslotName].inactiveGrades.includes(gradeName)){
                 $scope.school.schedule[dayName][timeslotName].inactiveGrades =
-                    _.without($scope.school.schedule[dayName][timeslotName].lunchGrades, gradeName);
+                    _.without($scope.school.schedule[dayName][timeslotName].inactiveGrades, gradeName);
         } else {
             $scope.school.schedule[dayName][timeslotName].inactiveGrades.push(gradeName);
         }
+    };
+    $scope.toggleAllGrade = function(dayName, gradeName){
+        var allChecked = $scope.checkAllGrade(dayName, gradeName);
+        _.each($scope.school.schedule[dayName], function(timeslot){
+            if(allChecked){
+                timeslot.inactiveGrades = _.without(timeslot.inactiveGrades, gradeName);
+            } else {
+                timeslot.inactiveGrades.push(gradeName);
+            }
+        });
     };
 
     $scope.toggleLunch = function(dayName, timeslotName, gradeName){

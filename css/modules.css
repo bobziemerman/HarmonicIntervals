@@ -1,4 +1,5 @@
-.capitalize {
+.capitalize,
+.capitalized {
     text-transform: capitalize;
 }
 
