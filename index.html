@@ -83,18 +83,24 @@
         <div>
             <table class="table">
                 <tr>
-                    <td></td>
-                    <td ng-repeat="(dayName, day) in school.schedule" 
-                        ng-if="days[dayName]"
-                        class="capitalize">{{dayName}}</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <tr ng-repeat="timeslot in school.schedule.monday">
-                    <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
+                    <td><b>{{timeslot.startTime}}</b></td>
+                </tr>
+            </table>
+            <table class="table">
+                <tr>
+                    <td ng-repeat="(dayName, day) in school.schedule" 
+                        ng-if="days[dayName]"
+                        class="capitalize"><b>{{dayName}}</b></td>
+                </tr>
+                <tr ng-repeat="timeslot in school.schedule.monday">
                     <td ng-repeat="(dayName, day) in school.schedule" ng-if="days[dayName]">
                         <span ng-repeat="(ig, val) in computedSchedule[dayName+timeslot.startTime]"
                               ng-if="val">
                             {{ig}}
-                        </span>
+                        </span>&nbsp;
                     </td>
                 </tr>
             </table>
