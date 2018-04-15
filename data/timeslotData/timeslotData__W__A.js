@@ -1,4 +1,3 @@
-//TODO PE per teacher
 var timeslotData__W__A = {
     'monday': {
         '09:30': {
@@ -8,7 +7,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '10:00': {
@@ -18,7 +17,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['jenkins'],
                 'inactiveGrades': [],
         },
         '10:30': {
@@ -28,7 +27,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['baker', 'jenkins'],
                 'inactiveGrades': [],
         },
         '11:00': {
@@ -38,7 +37,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['baker'],
                 'inactiveGrades': [],
         },
         '11:30': {
@@ -48,7 +47,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:00': {
@@ -58,7 +57,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:30': {
@@ -68,7 +67,7 @@ var timeslotData__W__A = {
                 'lunchGrades': ['4th'],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '13:35': {
@@ -78,7 +77,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': ['5th'],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:05': {
@@ -88,7 +87,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:35': {
@@ -98,7 +97,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
 
@@ -111,7 +110,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['baker', 'muhammad'],
                 'inactiveGrades': [],
         },
         '10:00': {
@@ -121,7 +120,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['muhammad', 'harris'],
                 'inactiveGrades': [],
         },
         '10:30': {
@@ -131,7 +130,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['harris'],
                 'inactiveGrades': [],
         },
         '11:00': {
@@ -141,7 +140,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '11:30': {
@@ -151,7 +150,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:00': {
@@ -161,7 +160,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:30': {
@@ -171,7 +170,7 @@ var timeslotData__W__A = {
                 'lunchGrades': ['4th'],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '13:35': {
@@ -181,7 +180,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': ['5th'],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:05': {
@@ -191,7 +190,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:35': {
@@ -201,7 +200,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
 
@@ -214,7 +213,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['jenkins'],
                 'inactiveGrades': [],
         },
         '10:00': {
@@ -224,7 +223,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['muhammad'],
                 'inactiveGrades': [],
         },
         '10:30': {
@@ -234,7 +233,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['muhammad'],
                 'inactiveGrades': [],
         },
         '11:00': {
@@ -244,7 +243,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '11:30': {
@@ -254,7 +253,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:00': {
@@ -264,7 +263,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:30': {
@@ -274,7 +273,7 @@ var timeslotData__W__A = {
                 'lunchGrades': ['4th'],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '13:35': {
@@ -284,7 +283,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': ['5th'],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:05': {
@@ -294,7 +293,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:35': {
@@ -304,7 +303,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
 
@@ -317,7 +316,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['mayo'],
                 'inactiveGrades': [],
         },
         '10:00': {
@@ -327,7 +326,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['mayo', 'harris'],
                 'inactiveGrades': [],
         },
         '10:30': {
@@ -337,7 +336,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['harris'],
                 'inactiveGrades': [],
         },
         '11:00': {
@@ -347,7 +346,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '11:30': {
@@ -357,7 +356,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:00': {
@@ -367,7 +366,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:30': {
@@ -377,7 +376,7 @@ var timeslotData__W__A = {
                 'lunchGrades': ['4th'],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '13:35': {
@@ -387,7 +386,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': ['5th'],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:05': {
@@ -397,7 +396,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:35': {
@@ -407,7 +406,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
 
@@ -420,7 +419,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['mayo'],
                 'inactiveGrades': [],
         },
         '10:00': {
@@ -430,7 +429,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['mayo', 'jones'],
                 'inactiveGrades': [],
         },
         '10:30': {
@@ -440,7 +439,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': ['jones'],
                 'inactiveGrades': [],
         },
         '11:00': {
@@ -450,7 +449,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '11:30': {
@@ -460,7 +459,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:00': {
@@ -470,7 +469,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '12:30': {
@@ -480,7 +479,7 @@ var timeslotData__W__A = {
                 'lunchGrades': ['4th'],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '13:35': {
@@ -490,7 +489,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': ['5th'],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:05': {
@@ -500,7 +499,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
         '14:35': {
@@ -510,7 +509,7 @@ var timeslotData__W__A = {
                 'lunchGrades': [],
                 'recessGrades': [],
                 'mathGrades': [],
-                'peGrades': [],
+                'peTeachers': [],
                 'inactiveGrades': [],
         },
 

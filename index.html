@@ -17,6 +17,7 @@
     <div class="main" ng-app="harmonicIntervals" ng-controller="main">
         <h2>Harmonic Intervals</h2>
         
+        <!-- School chooser -->
         <div class="row">
             <div class="col-12">
                 <h5 class="float-left">Choose School: </h5>
@@ -27,6 +28,7 @@
             </div>
         </div>
 
+        <!-- Last week's math -->
         <div class="row">
             <div class="col-12">
                 <h5 class="float-left">Did anyone miss math last week? </h5>
@@ -41,7 +43,7 @@
             </div>
         </div>
 
-        <!-- Schedule -->
+        <!-- Colored Schedule -->
         <h5>Timeslots:</h5>
         <div>
             <table class="color-table table" 
@@ -70,7 +72,7 @@
             </table>
         </div>
 
-        <!-- Schedule -->
+        <!-- Printed Schedule -->
         <h5>Your schedule:</h5>
         <div>
             <div>Everyone is seen twice except:</div>
@@ -106,6 +108,7 @@
             </table>
         </div>
 
+        <!-- Schedule grade controls -->
         <h5>Customize Schedule:</h5>
         <div>
             <table class="table" ng-repeat="(dayName, day) in school.schedule">
@@ -204,7 +207,8 @@
     <script type="text/javascript" src="data/timeslotData/timeslotData__TG__A.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__TG__B.js"></script>
     <script type="text/javascript" src="data/gradeData.js"></script>
-    <script type="text/javascript" src="data/teacherData.js"></script>
+    <script type="text/javascript" src="data/teacherData/teacherData__TG.js"></script>
+    <script type="text/javascript" src="data/teacherData/teacherData__W.js"></script>
     <script type="text/javascript" src="data/schoolData.js"></script>
     
     <!-- Local files -->

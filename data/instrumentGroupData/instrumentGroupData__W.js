@@ -2,62 +2,62 @@ var instrumentGroupData__W = {
     "red": {
         "name": "Red",
         "grades": ["4th"],
-        "kids": 2
+        "teacher": "",
     },
     "orange": {
         "name": "Orange",
         "grades": ["4th"],
-        "kids": 4
+        "teacher": "",
     },
     "blue": {
         "name": "Blue",
         "grades": ["4th"],
-        "kids": 6
+        "teacher": "",
     },
     "purple": {
         "name": "Purple",
         "grades": ["4th"],
-        "kids": 8
+        "teacher": "",
     },
     "yellow": {
         "name": "Yellow",
         "grades": ["4th"],
-        "kids": 8
+        "teacher": "",
     },
     "green": {
         "name": "Green",
         "grades": ["4th"],
-        "kids": 8
+        "teacher": "",
     },
     "schumann": {
         "name": "Schumann",
         "grades": ["5th"],
-        "kids": 8
+        "teacher": "",
     },
     "mendelssohn": {
         "name": "Mendelssohn",
         "grades": ["5th"],
-        "kids": 8
+        "teacher": "",
     },
     "boulanger": {
         "name": "Boulanger",
         "grades": ["5th"],
-        "kids": 8
+        "teacher": "",
     },
     "williams": {
         "name": "Williams",
         "grades": ["5th"],
-        "kids": 8
+        "teacher": "",
     },
     "beethoven": {
         "name": "Beethoven",
         "grades": ["5th"],
-        "kids": 8
+        "teacher": "",
     },
     "vivaldi": {
         "name": "Vivaldi",
         "grades": ["5th"],
-        "kids": 8
+        "teacher": "",
     },
 
 }

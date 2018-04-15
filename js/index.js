@@ -2,12 +2,14 @@ var app = angular.module('harmonicIntervals', ['isteven-multi-select']);
 app.controller('main', function($scope) {
     console.log('sanity');
 console.log(gradeData);
-console.log(teacherData);
+console.log('woodmore teachers:');
+console.log(teacherData__W);
 console.log(schoolData);
 
     $scope.schools = JSON.parse(JSON.stringify(schoolData));
     $scope.school = $scope.schools['tulipGroveA']; //Default to TG
 console.log($scope.school);
+    $scope.teachers = JSON.parse(JSON.stringify(teacherData__TG)); //Default to TG
     $scope.grades = JSON.parse(JSON.stringify(gradeData));
     $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     $scope.computedSchedule = [];
@@ -50,9 +52,9 @@ console.log($scope.school);
                 
             }
         });
-        _.each(timeslot.peGrades, function(grade){
-            if(grades.includes(grade)){
-                warnings.push(grade + ' grade has PE');
+        _.each(timeslot.peTeachers, function(teacher){
+            if(ig.teacher === teacher){
+                warnings.push($scope.teachers[teacher].name + "'s class has PE");
             }
         });
         _.each(timeslot.recessGrades, function(grade){
@@ -94,8 +96,8 @@ console.log($scope.school);
                 }
             }
         });
-        _.each(timeslot.peGrades, function(grade){
-            if(grades.includes(grade)){
+        _.each(timeslot.peTeachers, function(teacher){
+            if(instrumentGroup.teacher === teacher){
                 level--;
             }
         });
@@ -131,9 +133,11 @@ console.log($scope.school);
         return timeslot.mathGrades.includes(grade);
     };
 
-    $scope.checkPE = function(timeslot, grade){
-        return timeslot.peGrades.includes(grade);
+/*
+    $scope.checkPE = function(timeslot, teacher){
+        return timeslot.peTeachers.includes(teacher);
     };
+*/
 
     $scope.checkRecess = function(timeslot, grade){
         return timeslot.recessGrades.includes(grade);
@@ -177,6 +181,7 @@ console.log($scope.school);
         }
     };
 
+/*
     $scope.togglePE = function(dayName, timeslotName, gradeName){
         if($scope.school.schedule[dayName][timeslotName].peGrades.includes(gradeName)){
                 $scope.school.schedule[dayName][timeslotName].peGrades =
@@ -185,6 +190,7 @@ console.log($scope.school);
             $scope.school.schedule[dayName][timeslotName].peGrades.push(gradeName);
         }
     };
+*/
 
     $scope.toggleRecess = function(dayName, timeslotName, gradeName){
         if($scope.school.schedule[dayName][timeslotName].recessGrades.includes(gradeName)){
@@ -205,8 +211,10 @@ console.log($scope.school);
         _.each(timeslot.mathGrades, function(grade){
             events.push(grade.substr(0,1)+'M');
         });
-        _.each(timeslot.peGrades, function(grade){
-            events.push(grade.substr(0,1)+'PE');
+        _.each(timeslot.peTeachers, function(teacher){
+            _.each(teacher.grades, function(grade){
+                events.push(grade.number+'PE');
+            });
         });
         _.each(timeslot.recessGrades, function(grade){
             events.push(grade.substr(0,1)+'R');
@@ -243,8 +251,13 @@ console.log($scope.school);
     }, true);
 
 
-    //Initialize Bootstrap tooltips
+    //Watch for school change
     $scope.$watch('school', function(){
+        //Change teachers
+        teacherData = $scope.school.name.includes('Woodmore') ? 
+            JSON.parse(JSON.stringify(teacherData__W)) : 
+            JSON.parse(JSON.stringify(teacherData__TG)); 
+
         $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     }, true);
 
