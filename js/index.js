@@ -14,12 +14,10 @@ console.log($scope.school);
     $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     $scope.computedSchedule = [];
 
-    //Allows day toggle
-    $scope.days = [];
+    $scope.days = []; //Allows day toggle
     _.each(_.keys($scope.school.schedule), function(day){
         $scope.days[day] = true;
     });
-
 
     $scope.timeslotWarnings = function(timeslot, ig){
         var warnings = [];
@@ -133,11 +131,9 @@ console.log($scope.school);
         return timeslot.mathGrades.includes(grade);
     };
 
-/*
     $scope.checkPE = function(timeslot, teacher){
         return timeslot.peTeachers.includes(teacher);
     };
-*/
 
     $scope.checkRecess = function(timeslot, grade){
         return timeslot.recessGrades.includes(grade);
@@ -181,16 +177,14 @@ console.log($scope.school);
         }
     };
 
-/*
-    $scope.togglePE = function(dayName, timeslotName, gradeName){
-        if($scope.school.schedule[dayName][timeslotName].peGrades.includes(gradeName)){
-                $scope.school.schedule[dayName][timeslotName].peGrades =
-                    _.without($scope.school.schedule[dayName][timeslotName].peGrades, gradeName);
+    $scope.togglePE = function(dayName, timeslotName, teacher){
+        if($scope.school.schedule[dayName][timeslotName].peTeachers.includes(teacher)){
+                $scope.school.schedule[dayName][timeslotName].peTeachers =
+                    _.without($scope.school.schedule[dayName][timeslotName].peTeachers, teacher);
         } else {
-            $scope.school.schedule[dayName][timeslotName].peGrades.push(gradeName);
+            $scope.school.schedule[dayName][timeslotName].peTeachers.push(teacher);
         }
     };
-*/
 
     $scope.toggleRecess = function(dayName, timeslotName, gradeName){
         if($scope.school.schedule[dayName][timeslotName].recessGrades.includes(gradeName)){
