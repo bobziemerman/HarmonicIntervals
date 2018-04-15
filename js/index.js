@@ -13,6 +13,7 @@ console.log($scope.school);
     $scope.grades = JSON.parse(JSON.stringify(gradeData));
     $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     $scope.computedSchedule = [];
+    new ClipboardJS('#js-copy-to-clipboard'); //Set up 'copy to clipboard' element
 
     $scope.days = []; //Allows day toggle
     _.each(_.keys($scope.school.schedule), function(day){
@@ -236,6 +237,34 @@ console.log($scope.school);
 
         return lessonCount;
     }
+
+    $scope.missingMath = function(){
+        var arr = [];
+        _.each(_.keys($scope.school.schedule), function(day){
+            _.each(_.keys($scope.school.schedule[day]), function(timeslot){
+                _.each($scope.school.instrumentGroups, function(ig){
+                    var startTime = $scope.school.schedule[day][timeslot].startTime;
+                    if($scope.computedSchedule[day+startTime] && 
+                       $scope.computedSchedule[day+startTime][ig.name]){
+                        arr.push(ig.name);
+                    }
+                });
+            });
+        });
+        return JSON.stringify(arr);
+    };
+
+/*
+    $scope.copyToClipboard = function(){
+        var range = document.getSelection().getRangeAt(0);
+        range.selectNode(document.getElementById("js-schedule-code"));
+//console.log(copyText);
+        //copyText.select();
+        window.getSelection().addRange(copyText);
+        document.execCommand('copy');
+    }
+*/
+new ClipboardJS('.btn');
 
 
 

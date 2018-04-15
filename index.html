@@ -107,6 +107,15 @@
                 </tr>
             </table>
         </div>
+        <div>
+            This week's schedule data to save: <span ng-if="missingMath().length <=2">None (no one missed math)</span>
+            <span ng-if="missingMath().length >2">
+                <b id="js-schedule-code">{{missingMath()}}</b>
+                <button id="js-copy-to-clipboard" data-clipboard-text="{{missingMath()}}">
+                    Copy to clipboard
+                </button>
+            </span>
+        </div>
 
         <!-- Schedule grade controls -->
         <h5>Customize Schedule:</h5>
@@ -201,6 +210,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="libs/underscore-min.js"></script>
+    <script src="libs/clipboard.min.js"></script>
     <script src="libs/isteven/isteven.js"></script>
 
     <!-- Data files -->
