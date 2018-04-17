@@ -254,18 +254,8 @@ console.log($scope.school);
         return JSON.stringify(arr);
     };
 
-/*
-    $scope.copyToClipboard = function(){
-        var range = document.getSelection().getRangeAt(0);
-        range.selectNode(document.getElementById("js-schedule-code"));
-//console.log(copyText);
-        //copyText.select();
-        window.getSelection().addRange(copyText);
-        document.execCommand('copy');
-    }
-*/
-new ClipboardJS('.btn');
-
+    //Create clipboard button listener
+    new ClipboardJS('.btn');
 
 
     //Initialize Bootstrap tooltips
@@ -283,6 +273,19 @@ new ClipboardJS('.btn');
 
         $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     }, true);
+
+    //Watch for code input
+    $scope.$watch('mathGroups', function(){
+        if($scope.mathGroups){
+            _.each(JSON.parse($scope.mathGroups), function(mGroup){
+                _.each($scope.school.instrumentGroups, function(ig){
+                    if(ig.name === mGroup){
+                        $scope.missedMathState.push(JSON.parse(JSON.stringify(ig)));
+                    }
+                });
+            });
+        }
+    });
 
 });
 

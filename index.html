@@ -16,6 +16,8 @@
 <body>
     <div class="main" ng-app="harmonicIntervals" ng-controller="main">
         <h2>Harmonic Intervals</h2>
+
+        <br/>
         
         <!-- School chooser -->
         <div class="row">
@@ -28,20 +30,33 @@
             </div>
         </div>
 
+        <br/>
+
         <!-- Last week's math -->
         <div class="row">
             <div class="col-12">
-                <h5 class="float-left">Did anyone miss math last week? </h5>
-                <span   
-                    isteven-multi-select
-                    input-model="missedMath"
-                    output-model="missedMathState"
-                    button-label="name"
-                    item-label="name"
-                    tick-property="checked"
-                    helper-elements=""></span>
+                <div>
+                    <h5>Did anyone miss math last week? </h5>
+                </div>
+                <div>
+                    <span>Enter last week's data: </span>
+                    <input ng-model="mathGroups"></input>
+                </div>
+                <div>
+                    <span>Or select from the list: </span>
+                    <span   
+                        isteven-multi-select
+                        input-model="missedMath"
+                        output-model="missedMathState"
+                        button-label="name"
+                        item-label="name"
+                        tick-property="checked"
+                        helper-elements=""></span>
+                </div>
             </div>
         </div>
+
+        <br/>
 
         <!-- Colored Schedule -->
         <h5>Timeslots:</h5>
@@ -71,6 +86,8 @@
                 </tr>
             </table>
         </div>
+
+        <br/>
 
         <!-- Printed Schedule -->
         <h5>Your schedule:</h5>
@@ -116,6 +133,8 @@
                 </button>
             </span>
         </div>
+
+        <br/>
 
         <!-- Schedule grade controls -->
         <h5>Customize Schedule:</h5>
