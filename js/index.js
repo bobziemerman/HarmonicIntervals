@@ -1,3 +1,6 @@
+
+//TODO missing PE and teacher data for (W?)
+
 var app = angular.module('harmonicIntervals', ['isteven-multi-select']);
 app.controller('main', function($scope) {
     console.log('sanity');
@@ -12,6 +15,7 @@ console.log($scope.school);
     $scope.teachers = JSON.parse(JSON.stringify(teacherData__TG)); //Default to TG
     $scope.grades = JSON.parse(JSON.stringify(gradeData));
     $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
+console.log($scope.missedMath);
     $scope.computedSchedule = [];
     new ClipboardJS('#js-copy-to-clipboard'); //Set up 'copy to clipboard' element
 
@@ -244,8 +248,12 @@ console.log($scope.school);
             _.each(_.keys($scope.school.schedule[day]), function(timeslot){
                 _.each($scope.school.instrumentGroups, function(ig){
                     var startTime = $scope.school.schedule[day][timeslot].startTime;
+
+                    //If box is checked
                     if($scope.computedSchedule[day+startTime] && 
                        $scope.computedSchedule[day+startTime][ig.name]){
+
+                        //If math at this time TODO
                         arr.push(ig.name);
                     }
                 });
@@ -253,6 +261,28 @@ console.log($scope.school);
         });
         return JSON.stringify(arr);
     };
+
+    $scope.notTwice = {};
+    $scope.checkNotTwice = function(){
+        var arr = {};
+        _.each($scope.school.instrumentGroups, function(ig){
+            var count = $scope.lessonCount(ig.name);
+            if(!arr[count]){
+                arr[count] = [];
+            }
+            arr[count].push(ig.name);
+        });
+        $scope.notTwice = arr;
+    }
+
+    function isJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
 
     //Create clipboard button listener
     new ClipboardJS('.btn');
@@ -274,15 +304,28 @@ console.log($scope.school);
         $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     }, true);
 
+    //Watch for boxes being checked in color schedule
+    $scope.$watch('computedSchedule', function(){
+        console.log('fired');
+    }, true);
+
     //Watch for code input
     $scope.$watch('mathGroups', function(){
-        if($scope.mathGroups){
+        if($scope.mathGroups && isJsonString($scope.mathGroups)){
             _.each(JSON.parse($scope.mathGroups), function(mGroup){
                 _.each($scope.school.instrumentGroups, function(ig){
                     if(ig.name === mGroup){
-                        $scope.missedMathState.push(JSON.parse(JSON.stringify(ig)));
+                        _.each($scope.missedMath, function(mIg){
+                            if(mIg.name === mGroup){
+                                mIg.checked = true;
+                            }
+                        });
                     }
                 });
+            });
+        } else {
+            _.each($scope.missedMath, function(mIg){
+                mIg.checked = false;
             });
         }
     });

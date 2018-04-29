@@ -15,26 +15,24 @@
 </head>
 <body>
     <div class="main" ng-app="harmonicIntervals" ng-controller="main">
-        <h2>Harmonic Intervals</h2>
+        <h2 class="center">Harmonic Intervals</h2>
 
         <br/>
         
-        <!-- School chooser -->
         <div class="row">
-            <div class="col-12">
+            <div class="col-1"></div>
+
+            <!-- School chooser -->
+            <div class="col-5">
                 <h5 class="float-left">Choose School: </h5>
                 <select ng-model="school" 
                         ng-options="s.name for s in schools" 
                         class="school-select form-control" 
                         id="school"></select>
             </div>
-        </div>
 
-        <br/>
-
-        <!-- Last week's math -->
-        <div class="row">
-            <div class="col-12">
+            <!-- Last week's math -->
+            <div class="col-5">
                 <div>
                     <h5>Did anyone miss math last week? </h5>
                 </div>
@@ -93,6 +91,13 @@
         <h5>Your schedule:</h5>
         <div>
             <div>Everyone is seen twice except:</div>
+            <div ng-repeat="(count, groups) in notTwice">
+                <span class="text--red"><b>{{count}}</b></span> times: 
+                <span ng-repeat="group in groups">{{group}}</span>
+                <span ng-if="!$first">, </span>
+            </div>
+
+
             <span ng-repeat="ig in school.instrumentGroups" ng-if="lessonCount(ig.name) !== 2">
                 {{ig.name}}: 
                 <b><span class="text--red">{{lessonCount(ig.name)}}</span></b><span ng-if="!$last">, </span>
