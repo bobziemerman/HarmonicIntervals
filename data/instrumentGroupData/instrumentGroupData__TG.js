@@ -1,62 +1,52 @@
 var instrumentGroupData__TG = {
-    "purple": {
-        "name": "Purple",
-        "grades": ["4th"],
+    "bflute": {
+        "name": "B Flute",
+        "grades": ["Richardson","Taylor"],
         "teacher": "",
     },
-    "red": {
-        "name": "Red",
-        "grades": ["4th"],
+    "bclarinet": {
+        "name": "B Clarinet",
+        "grades": ["Richardson","Taylor"],
         "teacher": "",
     },
-    "orange": {
-        "name": "Orange",
-        "grades": ["4th"],
+    "basax": {
+        "name": "B A Sax",
+        "grades": ["Richardson","Taylor"],
         "teacher": "",
     },
-    "blue": {
-        "name": "Blue",
-        "grades": ["4th"],
+    "btrumpet": {
+        "name": "B Trumpet",
+        "grades": ["Richardson","Taylor","Holmes"],
         "teacher": "",
     },
-    "green": {
-        "name": "Green",
-        "grades": ["4th"],
+    "blbrass": {
+        "name": "B L Brass",
+        "grades": ["Richardson","Taylor"],
         "teacher": "",
     },
-    "yellow": {
-        "name": "Yellow",
-        "grades": ["4th"],
+    "bviolin": {
+        "name": "B Violin",
+        "grades": ["Richardson","Taylor","Retrievers"],
         "teacher": "",
     },
-    "schumann": {
-        "name": "Schumann",
-        "grades": ["5th"],
+    "bviola": {
+        "name": "B Viola",
+        "grades": ["Richardson","Taylor","Retrievers"],
         "teacher": "",
     },
-    "williams": {
-        "name": "Williams",
-        "grades": ["5th"],
+    "bcbp": {
+        "name": "B CBP",
+        "grades": ["BJ"],
         "teacher": "",
     },
-    "mendelssohn": {
-        "name": "Mendelssohn",
-        "grades": ["5th"],
+    "istrings": {
+        "name": "I Strings",
+        "grades": ["BJ","Retrievers"],
         "teacher": "",
     },
-    "boulanger": { //TODO is this group in the right spot, order-wise?
-        "name": "Boulanger",
-        "grades": ["5th"],
-        "teacher": "",
-    },
-    "beethoven": {
-        "name": "Beethoven",
-        "grades": ["5th"],
-        "teacher": "",
-    },
-    "vivaldi": {
-        "name": "Vivaldi",
-        "grades": ["5th"],
+    "iband": {
+        "name": "I Band",
+        "grades": ["BJ","Retrievers"],
         "teacher": "",
     },
 
